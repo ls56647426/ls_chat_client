@@ -4,15 +4,59 @@
 #include "../pojo/User.h"
 #include "../pojo/Group.h"
 
+/* 消息内容最大长度限制 4096 B */
+const int MSGINFO_MAX_LEN = 4096;
+
+/**
+ * UNCOMPRESSED：		没压缩
+ * COMPRESSED：			压缩了
+ */
+enum MsgHeaderType
+{
+	UNCOMPRESSED, COMPRESSED
+};
+
+/* 消息头 */
+typedef struct
+{
+	/* 是否压缩过 */
+	bool compressflag;
+	/* 压缩前大小 */
+	uint32_t originsize;
+	/* 压缩后大小 */
+	uint32_t compresssize;
+	/* 不知道干嘛的，预留出来 */
+	char reserved[16];
+} MsgHeader;
+
+/* 消息内容 */
+class MsgInfo
+{
+public:
+	MsgInfo();
+
+	string getInfo() const;
+	void setInfo(const string &value);
+
+	string toString() const;
+
+private:
+	string info;
+	//	FileInfo file_info;
+	//	TranFile file_data;
+};
+
 /**
  * @brief [The MsgType enum]
- * Msg_Register：					注册
- * Msg_Login：						登录
- * Msg_AlterPwd：					修改密码
- * Msg_FindPwd：						找回密码
- * Msg_SendMsg：						发送消息
- * Msg_Logout：						退出
- * Msg_TranFile：					发送文件
+ * MSG_UNKNOW：						未知类型
+ * MSG_HEARTBEAT：					心跳包
+ * MSG_REGISTER：					注册
+ * MSG_LOGIN：						登录
+ * MSG_ALTER_PWD：					修改密码
+ * MSG_FIND_PWD：					找回密码
+ * MSG_SEND_MSG：					发送消息
+ * MSG_LOGOUT：						退出
+ * MSG_TRAN_FILE：					发送文件
  * COMMAND_GET_FRIEND：				获取好友用户列表
  * COMMAND_GROUP_BANUSERPOST：		群内禁言
  * COMMAND_GROUP_DELETEUSER：		踢人
@@ -40,8 +84,10 @@
  */
 enum MsgType
 {
-	Msg_Register, Msg_Login, Msg_AlterPwd, Msg_FindPwd, Msg_SendMsg, Msg_Logout,
-	Msg_TranFile,
+	MSG_UNKNOW, MSG_HEARTBEAT = 1000,
+
+	MSG_REGISTER, MSG_LOGIN, MSG_ALTER_PWD, MSG_FIND_PWD, MSG_SEND_MSG,
+	MSG_LOGOUT, MSG_TRAN_FILE,
 
 	COMMAND_GET_FRIEND, COMMAND_GROUP_BANUSERPOST, COMMAND_GROUP_DELETEUSER,
 	COMMAND_FILE_UPLOAD, COMMAND_FILE_DOWNLOAD, COMMAND_CREATE_GROUP,
@@ -55,24 +101,7 @@ enum MsgType
 	ERRNO_ADDUSER_NOTFOUND
 };
 
-const int MSGINFO_MAX_LEN = 10000;
-
-class MsgInfo
-{
-public:
-	MsgInfo();
-
-	string getInfo() const;
-	void setInfo(const string &value);
-
-	string toString() const;
-
-private:
-	string info;
-	//	FileInfo file_info;
-	//	TranFile file_data;
-};
-
+/* 消息主体 */
 class Msg
 {
 public:

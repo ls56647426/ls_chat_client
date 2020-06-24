@@ -1,14 +1,17 @@
 #include "login.h"
+#include "lschat.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	Login login;
+	LSChat client;
 
-	/* 显示登录界面 */
-	Login w;
-	w.show();
+	a.connect(&login, SIGNAL(showLSChat(User)), &client, SLOT(run(User)));
+
+	login.show();
 
 	return a.exec();
 }

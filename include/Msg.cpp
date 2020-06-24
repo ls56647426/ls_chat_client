@@ -83,4 +83,3 @@ string MsgInfo::toString() const
 {
 	return "'info':'" + info + "'";
 }
-

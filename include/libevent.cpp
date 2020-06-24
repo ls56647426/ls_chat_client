@@ -4,6 +4,15 @@
 #include <QDebug>
 #include <QHostAddress>
 #include <ws2tcpip.h>
+#include <JlCompress.h>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+
+#include <stdlib.h>
+
+QMutex Libevent::mutex;
+Libevent *Libevent::instance = NULL;
 
 Libevent::Libevent(QObject *parent) : QObject(parent)
 {
@@ -35,19 +44,158 @@ void Libevent::setServ_port(const quint32 &value)
 	serv_port = value;
 }
 
-void Libevent::sendMsg(const QString &msgStr)
+/* 向服务器端发送数据 */
+void Libevent::sendMsg(const QByteArray &msgArr)
 {
-	/* 发送消息 */
-	bufferevent_write(bev, msgStr.toStdString().data(),
-					  msgStr.size());
+	qDebug() << "开始发送";
+	QByteArray destArr;
+	char buf[MSGINFO_MAX_LEN];
+	/* 获取实例 */
+	Libevent &event = Libevent::getInstance();
+
+	/* 获取消息头 */
+	if(msgArr.size() < sizeof(MsgHeader))
+	{
+		qDebug() << "没有消息头：" << msgArr;
+		return;
+	}
+	MsgHeader header;
+	memcpy(&header, msgArr.toStdString().data(), sizeof(header));
+
+	/* 包头有错误，取消发送 */
+	if(header.originsize <= 0 ||
+			header.originsize > MSGINFO_MAX_LEN)
+	{
+		qDebug() << "包头有错误";
+		return;
+	}
+
+	/* 包头信息与实际发送数据内容不匹配 */
+	if(msgArr.size() != sizeof(header) + header.originsize)
+	{
+		qDebug() << "包头信息错误：28 + " << header.originsize << "!=" << msgArr.size();
+		return;
+	}
+
+	/* 需要压缩 */
+	qDebug() << "包头校验完成";
+	if(header.compressflag == MsgHeaderType::COMPRESSED)
+	{
+		/* 开始压缩数据 */
+		destArr = qCompress(msgArr.toStdString().data() + sizeof(header), header.originsize);
+		header.compresssize = destArr.size();
+		/* 压缩结果不对 */
+		qDebug() << "压缩后大小：" << destArr.size() << destArr;
+		if(header.compresssize <= 0 ||
+				header.compresssize > MSGINFO_MAX_LEN)
+		{
+			qDebug() << "压缩结果错误：" << destArr.size() << destArr;
+			return;
+		}
+
+		/* 发送数据 */
+		QByteArray dest((char *)&header, sizeof(header));
+		dest += destArr;
+		qDebug() << "发送压缩后数据：" << dest;
+		memcpy(buf, dest.toStdString().data(), dest.size());
+		bufferevent_write(event.bev, buf, dest.size());
+	}
+	else
+	{
+		/* 不用压缩，直接发送数据 */
+		qDebug() << "不需压缩直接发送数据：" << msgArr;
+		memcpy(buf, msgArr.toStdString().data(), msgArr.size());
+		bufferevent_write(event.bev, buf, msgArr.size());
+	}
+	qDebug() << "发送完成";
 }
 
-void Libevent::recvMsg(const QString &msgStr)
+/* 读取服务器端发送的数据 */
+void Libevent::recvMsg(QString &msgStr)
 {
-	bufferevent_read(bev, msgStr.toStdString().data(),
-					  MSGINFO_MAX_LEN);
+	char buf[MSGINFO_MAX_LEN];
+	QByteArray destArr;
+	/* 获取实例 */
+	Libevent &event = Libevent::getInstance();
+
+	/* 获取包头 */
+	MsgHeader header;
+	struct evbuffer *input = bufferevent_get_input(event.bev);
+	evbuffer_copyout(input, &header, sizeof(MsgHeader));
+
+	/* 解析包头 */
+	if(header.compressflag == MsgHeaderType::COMPRESSED)
+	{
+		/* 包头有错误，立即关闭连接 */
+		if(header.originsize <= 0 ||
+				header.originsize > MSGINFO_MAX_LEN ||
+				header.compresssize <= 0 ||
+				header.compresssize > MSGINFO_MAX_LEN)
+		{
+			qDebug() << "包头错误：" << header.originsize << header.compresssize;
+			return;
+		}
+
+		/* 收到的数据不够一个完整的数据包 */
+		if(evbuffer_get_length(input) < sizeof(header) + header.compresssize)
+			return;
+
+		evbuffer_drain(input, sizeof(header));
+		evbuffer_remove(input, buf, header.compresssize);
+
+		destArr = qUncompress((uchar *)buf, header.compresssize);
+		QJsonParseError jsonError;
+		QJsonDocument jsonDoc(QJsonDocument::fromJson(destArr, &jsonError));
+		if(jsonError.error != QJsonParseError::NoError)
+		{
+			qDebug() << "json error：" << destArr;
+			return;
+		}
+
+		QJsonObject rootObj = jsonDoc.object();
+		QStringList keys = rootObj.keys();
+		for(int i = 0; i < keys.size(); i++)
+		{
+			qDebug() << "key" << i << " is:" << keys.at(i);
+		}
+	}
+	else
+	{
+		/* 包头有错误，立即关闭连接 */
+		if(header.originsize <= 0 ||
+				header.originsize > MSGINFO_MAX_LEN)
+		{
+			qDebug() << "包头错误：" << header.originsize;
+			return;
+		}
+
+		/* 收到的数据不够一个完整的数据包 */
+		if(evbuffer_get_length(input) < sizeof(header) + header.originsize)
+			return;
+
+		evbuffer_drain(input, sizeof(header));
+		evbuffer_remove(input, buf, header.originsize);
+
+		destArr = qUncompress((uchar *)buf, header.originsize);
+		QJsonParseError jsonError;
+		QJsonDocument jsonDoc(QJsonDocument::fromJson(destArr, &jsonError));
+		if(jsonError.error != QJsonParseError::NoError)
+		{
+			qDebug() << "json error：" << destArr;
+			return;
+		}
+
+		QJsonObject rootObj = jsonDoc.object();
+		QStringList keys = rootObj.keys();
+		for(int i = 0; i < keys.size(); i++)
+		{
+			qDebug() << "key" << i << " is:" << keys.at(i);
+		}
+	}
+	msgStr = destArr;
 }
 
+/* 启动 槽函数 */
 void Libevent::run()
 {
 #ifdef WIN32
@@ -97,6 +245,7 @@ void Libevent::run()
 	event_base_free(base);
 }
 
+/* 读缓冲区回调函数 */
 void Libevent::read_cb(bufferevent *bev, void *ctx)
 {
 	char buf[BUFSIZ];
@@ -108,11 +257,13 @@ void Libevent::read_cb(bufferevent *bev, void *ctx)
 				 sizeof("this is client to server msg."));
 }
 
+/* 写缓冲区回调函数 */
 void Libevent::write_cb(bufferevent *bev, void *ctx)
 {
 	qDebug() << "数据发送完成";
 }
 
+/* 事件处理缓冲区回调函数 */
 void Libevent::event_cb(bufferevent *bev, short what, void *ctx)
 {
 	if (what & BEV_EVENT_EOF) //遇到文件结束指示
@@ -140,4 +291,17 @@ void Libevent::event_cb(bufferevent *bev, short what, void *ctx)
 
 	/* close套接字，free读写缓冲区 */
 	bufferevent_free(bev);
+}
+
+/* 单例模式：获取libevent对象 */
+Libevent &Libevent::getInstance()
+{
+	if (!instance)
+	{
+		QMutexLocker locker(&mutex);
+		if (!instance)
+			instance = new Libevent();
+	}
+
+	return *instance;
 }

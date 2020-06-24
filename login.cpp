@@ -40,6 +40,7 @@ Login::~Login()
 /* 登录 */
 void Login::on_loginBtn_clicked()
 {
+	qDebug() << "进入登录槽函数";
 	/* 获取用户名和密码内容 */
 	QString username = ui->userNameLineEdit->text();
 	QString password = ui->pwdLineEdit->text();
@@ -67,9 +68,22 @@ void Login::on_loginBtn_clicked()
 	user.setUsername(username.toStdString());
 	user.setPassword(password.toStdString());
 	Msg msg;
-	msg.setType(MsgType::Msg_Login);
+	msg.setType(MsgType::MSG_LOGIN);
 	msg.setSrc(user);
 	qDebug() << "登录信息：" << msg.toString().data();
+	if(sizeof(MsgHeader) + msg.toString().size() > MSGINFO_MAX_LEN)
+	{
+		qDebug() << "登录信息过长";
+		return;
+	}
+	MsgHeader header;
+	header.compressflag = MsgHeaderType::UNCOMPRESSED;
+	header.originsize = msg.toString().size();
+	char buf[MSGINFO_MAX_LEN];
+	memcpy(buf, &header, sizeof(header));
+	strcpy(buf + sizeof(header), msg.toString().data());
+	buf[sizeof(header) + msg.toString().size()] = 0;
+	Libevent::sendMsg(QByteArray(buf, sizeof(header) + msg.toString().size()));
 
 //	if(!user)
 //	{
@@ -168,7 +182,7 @@ void Login::on_registerBtn_clicked()
 	user.setPassword(password.toStdString());
 	user.setMobile(mobile.toStdString());
 	Msg msg;
-	msg.setType(MsgType::Msg_Register);
+	msg.setType(MsgType::MSG_REGISTER);
 	msg.setSrc(user);
 
 	qDebug() << "注册信息：" << msg.toString().data();
@@ -254,7 +268,7 @@ void Login::on_alterBtn_clicked()
 	User dest;
 	dest.setPassword(newPwd.toStdString());
 	Msg msg;
-	msg.setType(MsgType::Msg_AlterPwd);
+	msg.setType(MsgType::MSG_ALTER_PWD);
 	msg.setSrc(user);
 	msg.setDest(dest);
 	qDebug() << "修改密码封包：" << msg.toString().data();
@@ -334,7 +348,7 @@ void Login::on_findBtn_clicked()
 	User dest;
 	dest.setPassword(newPwd.toStdString());
 	Msg msg;
-	msg.setType(MsgType::Msg_FindPwd);
+	msg.setType(MsgType::MSG_FIND_PWD);
 	msg.setSrc(user);
 	msg.setDest(dest);
 	qDebug() << "找回密码封包：" << msg.toString().data();
@@ -511,7 +525,8 @@ void Login::libeventInit()
 	pThread = new QThread(this);
 	event = new Libevent;
 	event->moveToThread(pThread);
-	pThread->start();
 	connect(this, SIGNAL(sigEventRun()), event, SLOT(run()));
+	pThread->start();
 	emit sigEventRun();
+	qDebug() << "服务器初始化完成。";
 }
