@@ -1,0 +1,1223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Login</class>
+ <widget class="QMainWindow" name="Login">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>483</width>
+    <height>458</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Login</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QToolTip{
+	background-color: white;
+	color: black;
+    border: 1px solid #D1D1D1;
+	font-size: 12px;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="logoWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>430</width>
+      <height>180</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget#logoWidget{
+	border-image: url(:/Icon/bg.png);
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+</string>
+    </property>
+    <widget class="QPushButton" name="closeBtn">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>10</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	image: url(:/Icon/close2.png);
+	border-radius: 0;
+	background-color: rgba(255, 255, 255, 0);
+}
+QPushButton:hover{
+	image: url(:/Icon/close.png);
+	background-color: rgb(255, 0, 0);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="miniBtn">
+     <property name="geometry">
+      <rect>
+       <x>374</x>
+       <y>10</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	image: url(:/Icon/mini2.png);
+	border-radius: 0;
+	background-color: rgba(255, 255, 255, 0);
+}
+QPushButton:hover{
+	image: url(:/Icon/mini.png);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="titleLabel">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>40</y>
+       <width>140</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 0;
+background-color: rgba(255, 255, 255, 0);</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#ffffff;&quot;&gt;LSChat&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>430</width>
+      <height>150</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(235, 242, 249);
+border-radius: 5px;
+font-family: 'Microsoft YaHei';
+</string>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="loginWidget">
+     <widget class="QPushButton" name="toFindBtn">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>35</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+    font-size: 12px;
+	color: rgb(57, 143, 230);
+}
+QPushButton:hover{
+	color: rgb(111, 186, 248);
+}</string>
+      </property>
+      <property name="text">
+       <string>找回密码</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="toAlterBtn">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>65</y>
+        <width>60</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+    font-size: 12px;
+	color: rgb(57, 143, 230);
+}
+QPushButton:hover{
+	color: rgb(111, 186, 248);
+}</string>
+      </property>
+      <property name="text">
+       <string>修改密码</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="pwdLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>135</x>
+        <y>35</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="maxLength">
+       <number>18</number>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>密码</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="toRegisterBtn">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>5</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+    font-size: 12px;
+	color: rgb(57, 143, 230);
+}
+QPushButton:hover{
+	color: rgb(111, 186, 248);
+}</string>
+      </property>
+      <property name="text">
+       <string>注册账号</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="loginBtn">
+      <property name="geometry">
+       <rect>
+        <x>135</x>
+        <y>105</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 5px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+      </property>
+      <property name="text">
+       <string>登    录</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="remeberCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>135</x>
+        <y>75</y>
+        <width>75</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #8D9195;
+font-size: 12px;</string>
+      </property>
+      <property name="text">
+       <string>记住密码</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="autoLoginCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>265</x>
+        <y>75</y>
+        <width>75</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #8D9195;
+font-size: 12px;</string>
+      </property>
+      <property name="text">
+       <string>自动登录</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="userNameLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>135</x>
+        <y>5</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+	border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+	border: 1px solid #1583DD;
+}
+</string>
+      </property>
+      <property name="placeholderText">
+       <string>用户名</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="headPortraitLabel">
+      <property name="geometry">
+       <rect>
+        <x>45</x>
+        <y>5</y>
+        <width>80</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-image: url(:/Icon/user.png);
+background-color: rgb(218, 219, 221);
+border-radius:40px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="localUserListWidget">
+      <property name="geometry">
+       <rect>
+        <x>135</x>
+        <y>35</y>
+        <width>195</width>
+        <height>70</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>195</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>195</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QListWidget{
+	background-color: rgb(255, 255, 255);
+}
+QListWidgetItem:hover{
+	background-color: rgb(60, 150, 214);
+}
+</string>
+      </property>
+      <property name="gridSize">
+       <size>
+        <width>195</width>
+        <height>35</height>
+       </size>
+      </property>
+      <item>
+       <property name="text">
+        <string>12345678910</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>12345678911</string>
+       </property>
+      </item>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="registerWidget">
+     <widget class="QLineEdit" name="registerUsernamelineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>5</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 5px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>账号</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="registerPwdlineEdit">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>5</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 5px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>密码</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="registerPwd2lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>35</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>确认密码</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="registerBtn">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>75</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 5px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+      </property>
+      <property name="text">
+       <string>注    册</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="registerReturnLoginBtn">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>75</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 5px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+      </property>
+      <property name="text">
+       <string>返    回</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="registerMobileLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>35</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 5px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>手机号</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="alterWidget">
+     <widget class="QLineEdit" name="alterUsernamelineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>5</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 5px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>账号</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="alterOldPwdlineEdit">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>5</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 5px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>旧密码</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="alterNewPwdlineEdit">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>35</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 5px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>新密码</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="alterReturnLoginBtn">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>105</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 5px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+      </property>
+      <property name="text">
+       <string>返    回</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="alterBtn">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>105</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 5px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+      </property>
+      <property name="text">
+       <string>修    改</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="alterNewPwd2lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>65</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>确认密码</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="alterMobileLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>35</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>手机号</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="findWidget">
+     <widget class="QLineEdit" name="findUsernameLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>5</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 5px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>账号</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="findMobileLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>5</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 5px;
+	border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>手机号</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="findReturnLoginBtn">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>75</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 5px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+      </property>
+      <property name="text">
+       <string>返    回</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="findNewPwdLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>35</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 0px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>新密码</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="findNewPwd2LineEdit">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>35</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+	border-bottom-left-radius: px;
+    border-bottom-right-radius: 5px;
+    font-size: 13px;
+    color: black;
+	background-color: rgb(255, 255, 255);
+    border: 1px solid #D1D1D1;
+}
+QLineEdit:hover{
+    border: 1px solid #1583DD;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>确认密码</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="findBtn">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>75</y>
+        <width>195</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 5px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+      </property>
+      <property name="text">
+       <string>找    回</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <tabstops>
+  <tabstop>userNameLineEdit</tabstop>
+  <tabstop>pwdLineEdit</tabstop>
+  <tabstop>remeberCheckBox</tabstop>
+  <tabstop>autoLoginCheckBox</tabstop>
+  <tabstop>loginBtn</tabstop>
+  <tabstop>toRegisterBtn</tabstop>
+  <tabstop>toFindBtn</tabstop>
+  <tabstop>toAlterBtn</tabstop>
+  <tabstop>registerUsernamelineEdit</tabstop>
+  <tabstop>registerPwdlineEdit</tabstop>
+  <tabstop>registerPwd2lineEdit</tabstop>
+  <tabstop>registerMobileLineEdit</tabstop>
+  <tabstop>registerReturnLoginBtn</tabstop>
+  <tabstop>registerBtn</tabstop>
+  <tabstop>alterUsernamelineEdit</tabstop>
+  <tabstop>alterOldPwdlineEdit</tabstop>
+  <tabstop>alterMobileLineEdit</tabstop>
+  <tabstop>alterNewPwdlineEdit</tabstop>
+  <tabstop>alterNewPwd2lineEdit</tabstop>
+  <tabstop>alterReturnLoginBtn</tabstop>
+  <tabstop>alterBtn</tabstop>
+  <tabstop>findUsernameLineEdit</tabstop>
+  <tabstop>findMobileLineEdit</tabstop>
+  <tabstop>findNewPwdLineEdit</tabstop>
+  <tabstop>findNewPwd2LineEdit</tabstop>
+  <tabstop>findReturnLoginBtn</tabstop>
+  <tabstop>findBtn</tabstop>
+  <tabstop>miniBtn</tabstop>
+  <tabstop>closeBtn</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>closeBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Login</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>453</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>miniBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Login</receiver>
+   <slot>lower()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>397</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>395</x>
+     <y>421</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>userNameLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>252</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pwdLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>222</x>
+     <y>250</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>216</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>registerUsernamelineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>registerBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>300</x>
+     <y>289</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>registerPwdlineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>registerBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>278</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>320</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>registerPwd2lineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>registerBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>251</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>registerMobileLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>registerBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>249</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>292</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alterUsernamelineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>alterBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>151</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>266</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alterOldPwdlineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>alterBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>277</x>
+     <y>224</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>317</x>
+     <y>326</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alterMobileLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>alterBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>178</x>
+     <y>253</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>244</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alterNewPwdlineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>alterBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>280</x>
+     <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>302</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alterNewPwd2lineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>alterBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>285</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>259</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>findUsernameLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>findBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>255</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>findNewPwdLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>findBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>203</x>
+     <y>253</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>241</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>findMobileLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>findBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>216</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>382</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>findMobileLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>findBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>findNewPwd2LineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>findBtn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>285</x>
+     <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>305</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

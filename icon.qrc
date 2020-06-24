@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icon/close.png</file>
+        <file>Icon/close2.png</file>
+        <file>Icon/mini.png</file>
+        <file>Icon/mini2.png</file>
+        <file>Icon/user.png</file>
+        <file>Icon/bg.png</file>
+        <file>Icon/headshot.jpg</file>
+        <file>Icon/list.png</file>
+        <file>Icon/session.jpg</file>
+        <file>Icon/yun.png</file>
+        <file>Icon/av_talk.png</file>
+        <file>Icon/group_chat.png</file>
+        <file>Icon/remote_desktop.png</file>
+        <file>Icon/settings.jpg</file>
+        <file>Icon/topbg.png</file>
+        <file>Icon/add.png</file>
+        <file>Icon/search.png</file>
+    </qresource>
+</RCC>

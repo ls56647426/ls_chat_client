@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Find</class>
+ <widget class="QWidget" name="Find">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>626</width>
+    <height>206</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>626</width>
+    <height>206</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>626</width>
+    <height>446</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>626</width>
+    <height>206</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="findWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>3</y>
+     <width>620</width>
+     <height>200</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>620</width>
+     <height>200</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>620</width>
+     <height>440</height>
+    </size>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>620</width>
+     <height>200</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <widget class="QWidget" name="topWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>620</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>620</width>
+      <height>70</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>620</width>
+      <height>70</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>620</width>
+      <height>70</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget#topWidget{
+	border-radius: 3px;
+}</string>
+    </property>
+    <widget class="QPushButton" name="closeBtn">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>10</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	image: url(:/Icon/close2.png);
+	border-radius: 0;
+	background-color: rgba(255, 255, 255, 0);
+}
+QPushButton:hover{
+	image: url(:/Icon/close.png);
+	background-color: rgb(255, 0, 0);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="miniBtn">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>10</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	image: url(:/Icon/mini2.png);
+	border-radius: 0;
+	background-color: rgba(255, 255, 255, 0);
+}
+QPushButton:hover{
+	image: url(:/Icon/mini.png);
+	background-color: rgb(136, 136, 136);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="findFriendBtn">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>30</y>
+       <width>60</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>60</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>60</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	font-size: 20px;
+	color: #888888;
+	border: none;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>找好友</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="findGroupBtn">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>30</y>
+       <width>50</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>50</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	font-size: 20px;
+	color: #888888;
+	border: none;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>找群</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="searchWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>70</y>
+      <width>620</width>
+      <height>130</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>620</width>
+      <height>130</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>620</width>
+      <height>130</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>620</width>
+      <height>130</height>
+     </size>
+    </property>
+    <widget class="QPushButton" name="findBtn">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>50</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background-color: #00A3FF;
+	border-radius: 2px;
+}
+QPushButton:hover{
+	background-color: #3CC3F5;
+}</string>
+     </property>
+     <property name="text">
+      <string>查找</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QTableWidget" name="showCardTableWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>200</y>
+      <width>620</width>
+      <height>240</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>620</width>
+      <height>240</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>620</width>
+      <height>240</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>620</width>
+      <height>240</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget{
+	background-color: rgb(247, 247, 247);
+	border: none;
+}</string>
+    </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>新建行</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>新建列</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>新建列</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>新建列</string>
+     </property>
+    </column>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>miniBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Find</receiver>
+   <slot>lower()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>574</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>683</x>
+     <y>77</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>closeBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Find</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>598</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>710</x>
+     <y>41</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
