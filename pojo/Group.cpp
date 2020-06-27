@@ -28,8 +28,8 @@ void Group::setName(const string &value)
 
 string Group::toString() const
 {
-	return "'id':'" + to_string(id) +
-		"', 'name':'" + name + "'";
+	return "{\"id\":" + to_string(id) +
+		", \"name\":\"" + name + "\"}";
 }
 
 

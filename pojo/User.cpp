@@ -61,10 +61,10 @@ void User::setStatus(const uint32_t &value)
 
 string User::toString() const
 {
-	return "'id':'" + to_string(id) +
-		"', 'username':'" + username +
-		"', 'password':'" + password +
-		"', 'mobile':'" + mobile +
-		"', 'status':'" + to_string(status) + "'";
+	return "{\"id\":" + to_string(id) +
+		", \"username\":\"" + username +
+		"\", \"password\":\"" + password +
+		"\", \"mobile\":\"" + mobile +
+		"\", \"status\":" + to_string(status) + "}";
 }
 

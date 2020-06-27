@@ -39,9 +39,9 @@ void Friend::setUid2(const uint32_t &value)
 
 string Friend::toString() const
 {
-	return "'id':'" + to_string(id) +
-		"', 'uid1':'" + to_string(uid1) +
-		"', 'uid2':'" + to_string(uid2) + "'";
+	return "{\"id\":" + to_string(id) +
+		", \"uid1\":" + to_string(uid1) +
+		", \"uid2\":" + to_string(uid2) + "}";
 }
 
 

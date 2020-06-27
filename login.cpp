@@ -1,6 +1,7 @@
 #include "login.h"
 #include "ui_login.h"
 #include "include/Msg.h"
+#include "include/client.h"
 
 #include <QMessageBox>
 #include <QToolTip>
@@ -9,6 +10,7 @@
 #include <QSettings>
 #include <synchapi.h>
 #include <QDebug>
+#include <QHostAddress>
 
 QCache<QString, User> Login::userCache;
 
@@ -17,9 +19,6 @@ Login::Login(QWidget *parent)
 	, ui(new Ui::Login)
 {
 	ui->setupUi(this);
-
-	/* 服务器连接初始化 */
-	libeventInit();
 
 	/* 主界面初始化 */
 	homeInit();
@@ -76,14 +75,7 @@ void Login::on_loginBtn_clicked()
 		qDebug() << "登录信息过长";
 		return;
 	}
-	MsgHeader header;
-	header.compressflag = MsgHeaderType::UNCOMPRESSED;
-	header.originsize = msg.toString().size();
-	char buf[MSGINFO_MAX_LEN];
-	memcpy(buf, &header, sizeof(header));
-	strcpy(buf + sizeof(header), msg.toString().data());
-	buf[sizeof(header) + msg.toString().size()] = 0;
-	Libevent::sendMsg(QByteArray(buf, sizeof(header) + msg.toString().size()));
+	Client::sendMsg(msg);
 
 //	if(!user)
 //	{
@@ -413,18 +405,18 @@ void Login::on_autoLoginCheckBox_stateChanged(int arg1)
 void Login::on_userNameLineEdit_textChanged(const QString &arg1)
 {
 	qDebug() << arg1;
-	/* 获取缓存key列表 */
-	QList<QString> keyList = userCache.keys();
-	/* 检索数据 */
-	foreach(QString key, keyList)
-	{
-		qDebug() << userCache.object(key)->getUsername().data() << "-"<< arg1;
-		if(QString(userCache.object(key)->getUsername().data()).contains(arg1))
-		{	/* 如果有，自动填写 */
-			ui->userNameLineEdit->setText(userCache.object(key)->getUsername().data());
-			ui->pwdLineEdit->setText(userCache.object(key)->getPassword().data());
-		}
-	}
+//	/* 获取缓存key列表 */
+//	QList<QString> keyList = userCache.keys();
+//	/* 检索数据 */
+//	foreach(QString key, keyList)
+//	{
+//		qDebug() << userCache.object(key)->getUsername().data() << "-"<< arg1;
+//		if(QString(userCache.object(key)->getUsername().data()).contains(arg1))
+//		{	/* 如果有，自动填写 */
+//			ui->userNameLineEdit->setText(userCache.object(key)->getUsername().data());
+//			ui->pwdLineEdit->setText(userCache.object(key)->getPassword().data());
+//		}
+//	}
 }
 
 /* 主界面初始化 */
@@ -519,14 +511,3 @@ void Login::readLocalCache()
 	}
 }
 
-/* 服务器连接初始化 */
-void Login::libeventInit()
-{
-	pThread = new QThread(this);
-	event = new Libevent;
-	event->moveToThread(pThread);
-	connect(this, SIGNAL(sigEventRun()), event, SLOT(run()));
-	pThread->start();
-	emit sigEventRun();
-	qDebug() << "服务器初始化完成。";
-}

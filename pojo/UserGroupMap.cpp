@@ -57,10 +57,10 @@ void UserGroupMap::setPermission(const uint32_t &value)
 
 string UserGroupMap::toString() const
 {
-	return "'id':'" + to_string(id) +
-		"', 'uid':'" + to_string(uid) +
-		"', 'gid':'" + to_string(gid) +
-		"', 'status':'" + to_string(status) +
-		"', 'permission':'" + to_string(permission) + "'";
+	return "{\"id\":" + to_string(id) +
+		", \"uid\":" + to_string(uid) +
+		", \"gid\":" + to_string(gid) +
+		", \"status\":" + to_string(status) +
+		", \"permission\":" + to_string(permission) + "}";
 }
 

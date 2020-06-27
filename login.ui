@@ -382,6 +382,16 @@ QListWidgetItem:hover{
        </property>
       </item>
      </widget>
+     <zorder>localUserListWidget</zorder>
+     <zorder>toFindBtn</zorder>
+     <zorder>toAlterBtn</zorder>
+     <zorder>pwdLineEdit</zorder>
+     <zorder>toRegisterBtn</zorder>
+     <zorder>loginBtn</zorder>
+     <zorder>remeberCheckBox</zorder>
+     <zorder>autoLoginCheckBox</zorder>
+     <zorder>userNameLineEdit</zorder>
+     <zorder>headPortraitLabel</zorder>
     </widget>
     <widget class="QWidget" name="registerWidget">
      <widget class="QLineEdit" name="registerUsernamelineEdit">

@@ -57,11 +57,11 @@ void Msg::setInfo(const MsgInfo &value)
 
 string Msg::toString() const
 {
-	return "'type':" + to_string(type) +
-		", 'group':{" + group.toString() +
-		"}, 'src':{" + src.toString() +
-		"}, 'dest':{" + dest.toString() +
-		"}, 'info':{" + info.toString() + "}";
+	return "{\"type\":" + to_string(type) +
+		", \"group\":" + group.toString() +
+		", \"src\":" + src.toString() +
+		", \"dest\":" + dest.toString() +
+		", \"info\":" + info.toString() + "}";
 }
 
 MsgInfo::MsgInfo()
@@ -81,5 +81,5 @@ void MsgInfo::setInfo(const string &value)
 
 string MsgInfo::toString() const
 {
-	return "'info':'" + info + "'";
+	return "{\"info\":\"" + info + "\"}";
 }

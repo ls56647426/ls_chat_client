@@ -6,10 +6,8 @@
 #include <QMouseEvent>
 #include <QLineEdit>
 #include <QCache>
-#include <QThread>
 
 #include "pojo/User.h"
-#include "include/libevent.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Login; }
@@ -44,14 +42,12 @@ private slots:
 	void on_remeberCheckBox_stateChanged(int arg1);
 	/* 自动登录 */
 	void on_autoLoginCheckBox_stateChanged(int arg1);
-
+	/* 用户名自动提示 */
 	void on_userNameLineEdit_textChanged(const QString &arg1);
 
 signals:
 	/* 显示龙少聊天室窗口 */
 	void showLSChat(User user);
-	/* event开始执行 */
-	void sigEventRun();
 
 private:
 	/* 主界面初始化 */
@@ -64,9 +60,6 @@ private:
 private:
 	Ui::Login *ui;
 	User me;
-
-	QThread *pThread;
-	Libevent *event;
 
 	/* 鼠标事件重载 - 所需变量 */
 	bool bPressFlag;

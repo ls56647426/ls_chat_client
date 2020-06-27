@@ -21,11 +21,10 @@ SOURCES += \
     form/findcard.cpp \
     form/searchlineedit.cpp \
     include/Msg.cpp \
-    include/libevent.cpp \
+    include/client.cpp \
     login.cpp \
     lschat.cpp \
     main.cpp \
-    client.cpp \
     pojo/Friend.cpp \
     pojo/Group.cpp \
     pojo/User.cpp \
@@ -33,12 +32,11 @@ SOURCES += \
 
 HEADERS += \
     addfriend.h \
-    client.h \
     find.h \
     form/findcard.h \
     form/searchlineedit.h \
     include/Msg.h \
-    include/libevent.h \
+    include/client.h \
     login.h \
     lschat.h \
     pojo/Friend.h \
@@ -48,7 +46,6 @@ HEADERS += \
 
 FORMS += \
     addfriend.ui \
-    client.ui \
     find.ui \
     login.ui \
     lschat.ui
@@ -68,6 +65,7 @@ LIBS += -lws2_32 -lwsock32
 # quazip和zlib支持
 INCLUDEPATH += D:/quazip-0.9.1/quazip
 LIBS += -LD:/quazip-0.9.1/lib -lquazip
+INCLUDEPATH += D:/zlib-1.2.11
 LIBS += -LD:/zlib-1.2.11 -lzlib1
 
 RESOURCES += \
