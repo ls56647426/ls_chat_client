@@ -3,7 +3,6 @@
 #include <QDebug>
 #include <QSettings>
 #include <QHostAddress>
-#include <JlCompress.h>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>

@@ -55,16 +55,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-# libevent支持
-INCLUDEPATH += D:/3rdparty/libevent/include
-LIBS += D:/3rdparty/libevent/lib/libevent.a
-LIBS += D:/3rdparty/libevent/lib/libevent_core.a
-LIBS += D:/3rdparty/libevent/lib/libevent_extra.a
-LIBS += -lws2_32 -lwsock32
-
 # quazip和zlib支持
-INCLUDEPATH += D:/quazip-0.9.1/quazip
-LIBS += -LD:/quazip-0.9.1/lib -lquazip
 INCLUDEPATH += D:/zlib-1.2.11
 LIBS += -LD:/zlib-1.2.11 -lzlib1
 
