@@ -1,5 +1,7 @@
 #include "addfriend.h"
 #include "ui_addfriend.h"
+#include "include/Msg.h"
+#include "lschat.h"
 
 #include <QGraphicsDropShadowEffect>
 
@@ -36,6 +38,8 @@ AddFriend::~AddFriend()
 /* 下一步 */
 void AddFriend::on_nextBtn_clicked()
 {
+	MsgInfo info;
+	Msg msg;
 	switch (status)
 	{
 	case AddFriendEnum::SendInfo:		/* 发送验证消息 */
@@ -43,15 +47,24 @@ void AddFriend::on_nextBtn_clicked()
 		checkInfo = ui->infoTextEdit->placeholderText();
 
 		/* 编辑完成，开始发送加好友请求 */
-		/* ... */
+		info.setInfo(checkInfo.toStdString());
+		msg.setType(MsgType::COMMAND_ADD_USER);
+		msg.setSrc(LSChat::getMe());
+		msg.setDest(user);
+		msg.setInfo(info);
+		Client::tcpSendMsg(msg);
+		msg = Client::getMsg();
 
 		/* 显示结果 */
 		status = AddFriendEnum::End;
 		ui->nextBtn->hide();
 		ui->stackedWidget->setCurrentIndex(status);
+		LSChat::showList();
 		break;
 /*	case AddFriendEnum::SetInfo:
 		break;*/
+	case AddFriendEnum::End:
+		break;
 	default:
 		break;
 	}

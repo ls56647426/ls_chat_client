@@ -55,7 +55,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-# quazip和zlib支持
+# zlib支持
 INCLUDEPATH += D:/zlib-1.2.11
 LIBS += -LD:/zlib-1.2.11 -lzlib1
 

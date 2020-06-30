@@ -335,63 +335,6 @@ border-radius:40px;</string>
        <string/>
       </property>
      </widget>
-     <widget class="QListWidget" name="localUserListWidget">
-      <property name="geometry">
-       <rect>
-        <x>135</x>
-        <y>35</y>
-        <width>195</width>
-        <height>70</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>195</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>195</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QListWidget{
-	background-color: rgb(255, 255, 255);
-}
-QListWidgetItem:hover{
-	background-color: rgb(60, 150, 214);
-}
-</string>
-      </property>
-      <property name="gridSize">
-       <size>
-        <width>195</width>
-        <height>35</height>
-       </size>
-      </property>
-      <item>
-       <property name="text">
-        <string>12345678910</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>12345678911</string>
-       </property>
-      </item>
-     </widget>
-     <zorder>localUserListWidget</zorder>
-     <zorder>toFindBtn</zorder>
-     <zorder>toAlterBtn</zorder>
-     <zorder>pwdLineEdit</zorder>
-     <zorder>toRegisterBtn</zorder>
-     <zorder>loginBtn</zorder>
-     <zorder>remeberCheckBox</zorder>
-     <zorder>autoLoginCheckBox</zorder>
-     <zorder>userNameLineEdit</zorder>
-     <zorder>headPortraitLabel</zorder>
     </widget>
     <widget class="QWidget" name="registerWidget">
      <widget class="QLineEdit" name="registerUsernamelineEdit">

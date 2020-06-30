@@ -103,24 +103,26 @@ void Find::on_findBtn_clicked()
 	Msg msg;
 	msg.setType(MsgType::COMMAND_FIND_USER);
 	msg.setSrc(user);
-	qDebug() << msg.toString().data();
-//	User *user = us.findUserByUsername(username);
+	Client::tcpSendMsg(msg);
+	msg = Client::getMsg();
 
-//	/* 显示 */
-//	FindCard *findCard = new FindCard;
-//	findCard->setUser(*user);
-//	findCard->setStyleSheet("FindCard{"
-//							"	background-color: rgb(247, 247, 247);"
-//							"}");
+	/* 找不到就没有数据，暂时没有报错提示 */
+	/* 显示 */
+	/* 暂时只通过用户名查找，所以只有一个数据 */
+	FindCard *findCard = new FindCard;
+	findCard->setUser(msg.getSrc());
+	findCard->setStyleSheet("FindCard{"
+							"	background-color: rgb(247, 247, 247);"
+							"}");
 
-//	QHBoxLayout *layout = new QHBoxLayout;
-//	layout->addWidget(findCard);
-//	layout->addStretch();
+	QHBoxLayout *layout = new QHBoxLayout;
+	layout->addWidget(findCard);
+	layout->addStretch();
 
-//	ui->showCardTableWidget->clear();
-//	ui->showCardTableWidget->setRowCount(1);
-//	ui->showCardTableWidget->setColumnCount(1);
-//	ui->showCardTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-//	ui->showCardTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-//	ui->showCardTableWidget->setCellWidget(0, 0, findCard);
+	ui->showCardTableWidget->clear();
+	ui->showCardTableWidget->setRowCount(1);
+	ui->showCardTableWidget->setColumnCount(1);
+	ui->showCardTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	ui->showCardTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->showCardTableWidget->setCellWidget(0, 0, findCard);
 }

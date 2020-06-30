@@ -13,6 +13,12 @@
 #include <QToolButton>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QSettings>
+
+/* 多线程互斥 */
+QMutex LSChat::mutex;
+/* 单例模式：懒汉式 */
+LSChat *LSChat::instance = NULL;
 
 static const QString listShowTopBtnSelectStyle = "QPushButton{"
 												 "	font-size: 12px;"
@@ -60,6 +66,8 @@ LSChat::LSChat(QWidget *parent) :
 	ui->listStackedWidget->setCurrentIndex(0);
 	ui->toFriListBtn->setStyleSheet(listShowTopBtnSelectStyle);
 	ui->toFriListLine->setStyleSheet(listShowTopLineSelectStyle);
+
+	show();
 }
 
 LSChat::~LSChat()
@@ -67,35 +75,43 @@ LSChat::~LSChat()
 	delete ui;
 }
 
+/* 单例模式：双检锁，获取聊天室对象 */
+LSChat &LSChat::getInstance()
+{
+	if (!instance)
+	{
+		QMutexLocker locker(&mutex);
+		if (!instance)
+			instance = new LSChat();
+	}
+
+	return *instance;
+}
+
 /* 显示 好友/群 列表 */
 void LSChat::showList()
 {
+	LSChat &chat = getInstance();
+
 	/* 获取好友列表 */
 	Msg msg;
 	msg.setType(MsgType::COMMAND_GET_FRIEND);
-	qDebug() << msg.toString().data();
-//	QList<Friend> friList = fs.findAllByUser(me);
-//	friUserList.clear();
-//	for (QList<Friend>::iterator it = friList.begin(); it != friList.end(); it++)
-//	{
-//		/* 获取好友的uid */
-//		quint32 id = (it->getUid1() == me.getId()) ? it->getUid2() : it->getUid1();
+	msg.setSrc(chat.me);
+	Client::tcpSendMsg(msg);
+	msg = Client::getMsg();
+	chat.friUserList = msg.getInfo().getUserListInfo();
+	/* 显示到friTreeWidget上 */
+	chat.ui->friTreeWidget->clear();
+	for(auto it = chat.friUserList.begin(); it != chat.friUserList.end(); it++)
+	{
+		QTreeWidgetItem *item = new QTreeWidgetItem(chat.ui->friTreeWidget);
+		item->setText(0, it->getNickname().data());
+	}
 
-//		/* 获取该用户实际数据，并写入当前好友列表 */
-//		friUserList.append(*ud.findOne(&id));
-//	}
-
-//	/* 显示到friTreeWidget上 */
-//	ui->friTreeWidget->clear();
-//	for(QList<User>::iterator it = friUserList.begin(); it != friUserList.end(); it++)
-//	{
-//		QTreeWidgetItem *item = new QTreeWidgetItem(ui->friTreeWidget);
-//		item->setText(0, it->getUsername());
-//	}
-
-	/* 获取群列表 */
-	msg.setType(MsgType::COMMAND_GET_GROUP_USER);
-	qDebug() << msg.toString().data();
+//	/* 获取群列表 */
+//	msg.setType(MsgType::COMMAND_GET_GROUP_USER);
+//	Client::sendMsg(msg);
+//	msg = Client::getMsg();
 //	QList<UserGroupMap> ugmList = ugms.findAllByUser(me);
 //	grpList.clear();
 //	for(QList<UserGroupMap>::iterator it = ugmList.begin(); it != ugmList.end(); it++)
@@ -112,16 +128,11 @@ void LSChat::showList()
 //	}
 }
 
-/* 接收登录窗口传来的数据，并显示本窗口 */
-void LSChat::run(User user)
+/* 获取当前在线用户信息 */
+User LSChat::getMe()
 {
-	/* 获取登录的用户信息 */
-	me = user;
-
-	/* 加载 好友/群 列表 */
-//	showList();
-
-	show();
+	LSChat &chat = getInstance();
+	return chat.me;
 }
 
 /* 鼠标事件重载 - 按下事件 */
@@ -221,6 +232,8 @@ bool LSChat::eventFilter(QObject *target, QEvent *event)
 /* 发送消息 */
 void LSChat::on_sendMsgBtn_clicked()
 {
+	LSChat &chat = getInstance();
+
 	/* 获取数据 */
 	QString text = ui->chatTextEdit->toPlainText();
 
@@ -230,6 +243,15 @@ void LSChat::on_sendMsgBtn_clicked()
 		QToolTip::showText(ui->sendMsgBtn->mapToGlobal(QPoint(-120, -40)), "发送内容不能为空，请重新输入", this);
 		return;
 	}
+
+	MsgInfo info;
+	info.setInfo(text.toStdString());
+	Msg msg;
+	msg.setType(MsgType::MSG_SEND_MSG);
+	msg.setSrc(chat.me);
+	msg.setInfo(info);
+//	Client::udpSendMsg(msg);
+//	Client::tcpSendMsg(msg);
 
 	/* 发送完清空输入框 */
 	ui->chatTextEdit->clear();
@@ -251,6 +273,14 @@ void LSChat::homeInit()
 	/* 设置阴影效果 */
 	ui->LSChatWidget->setGraphicsEffect(shadowEffect);
 	delete shadowEffect;
+
+	/* 获取登录的用户信息 */
+	QSettings settings("E:/qt/202006051029-Chat/Client/cache/userCache.ini", QSettings::IniFormat);
+	me.setId(settings.value("login/0/id").toUInt());
+	me.setUsername(settings.value(QString("login/%1/username").arg(me.getId())).toString().toStdString());
+	me.setPassword(settings.value(QString("login/%1/password").arg(me.getId())).toString().toStdString());
+	me.setMobile(settings.value(QString("login/%1/mobile").arg(me.getId())).toString().toStdString());
+	me.setStatus(UserStatus::USER_STAT_ONLINE);
 }
 
 /* 聊天会话界面初始化 */
@@ -389,6 +419,9 @@ void LSChat::listPageInit()
 	listShowSplitter->addWidget(ui->listShowTopwidget);
 	listShowSplitter->addWidget(ui->listStackedWidget);
 	listShowSplitter->setStretchFactor(1, 1);
+
+	/* 加载 好友/群 列表 */
+//	showList();
 }
 
 /* 界面切换按钮 */
@@ -456,7 +489,7 @@ void LSChat::actionsTriggered()
 	if(action == addListAction)
 	{	/* 加好友/加群 */
 		findWidget = new Find;
-		findWidget->setParent(this);
+//		findWidget->setParent(this);
 		findWidget->show();
 	}
 
@@ -474,3 +507,8 @@ void LSChat::toolBtnClicked()
 	qDebug() << btn;
 }
 
+/* 我的设置 */
+void LSChat::on_myBtn_clicked()
+{
+
+}

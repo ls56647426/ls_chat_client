@@ -4,6 +4,8 @@
 #include "../pojo/User.h"
 #include "../pojo/Group.h"
 
+#include <list>
+
 /* 消息内容最大长度限制 4096 B */
 const int MSGINFO_MAX_LEN = 4096;
 
@@ -40,8 +42,12 @@ public:
 
 	string toString() const;
 
+	list<User> getUserListInfo() const;
+	void setUserListInfo(const list<User> &value);
+
 private:
 	string info;
+	list<User> userListInfo;
 	//	FileInfo file_info;
 	//	TranFile file_data;
 };
@@ -81,6 +87,8 @@ private:
  * ERRNO_GROUP_ALREADYEXIST：		该群已存在
  * ERRNO_GROUP_INEXISTENCE：			该群不存在
  * ERRNO_ADDUSER_NOTFOUND：			加好友，没找到该用户
+ * ERRNO_MOBILE_ALREADYEXIST：		该手机号已绑定
+ * ERRNO_EMAIL_ALREADYEXIST：		该邮箱已被绑定
  */
 enum MsgType
 {
@@ -98,7 +106,7 @@ enum MsgType
 
 	ERRNO_SUCCESS, ERRNO_ALREADYEXIST, ERRNO_INEXISTENCE, ERRNO_NOTFOUND,
 	ERRNO_BEOFFLINE, ERRNO_GROUP_ALREADYEXIST, ERRNO_GROUP_INEXISTENCE,
-	ERRNO_ADDUSER_NOTFOUND
+	ERRNO_ADDUSER_NOTFOUND, ERRNO_MOBILE_ALREADYEXIST, ERRNO_EMAIL_ALREADYEXIST
 };
 
 /* 消息主体 */

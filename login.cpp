@@ -25,7 +25,6 @@ Login::Login(QWidget *parent)
 
 	/* 读取本地缓存 */
 	readLocalCache();
-	ui->localUserListWidget->hide();
 
 	/* 切换到登录主界面 */
 	ui->stackedWidget->setCurrentIndex(0);
@@ -69,37 +68,32 @@ void Login::on_loginBtn_clicked()
 	Msg msg;
 	msg.setType(MsgType::MSG_LOGIN);
 	msg.setSrc(user);
-	qDebug() << "登录信息：" << msg.toString().data();
-	if(sizeof(MsgHeader) + msg.toString().size() > MSGINFO_MAX_LEN)
+	Client::tcpSendMsg(msg);
+	/* 获取验证结果 */
+	msg = Client::getMsg();
+	/* 查无此人 */
+	if(msg.getType() == MsgType::ERRNO_INEXISTENCE)
 	{
-		qDebug() << "登录信息过长";
+		ui->loginBtn->setText("登    录");
+		QMessageBox::critical(this, "错误：", "账号或密码输入错误", QMessageBox::Ok);
 		return;
 	}
-	Client::sendMsg(msg);
 
-//	if(!user)
-//	{
-//		ui->loginBtn->setText("登    录");
-//		QMessageBox::critical(this, "错误：", "账号或密码输入错误", QMessageBox::Ok);
-//		return;
-//	}
-
-//	/* 登录过程中，延时一会，可以取消登录 */
-//	/* ... */
-
-//	/* 登录成功，切换到聊天窗口 */
-//	/* 加入本地缓存 */
-//	QSettings settings("E:/qt/202006051029-Chat/Client/cache/userCache.ini", QSettings::IniFormat);
-//	settings.setValue(QString("login/0/id"), user->getId());
-//	settings.setValue(QString("login/%1/username").arg(user->getId()), user->getUsername());
-//	settings.setValue(QString("login/%1/password").arg(user->getId()), user->getPassword());
-//	settings.setValue(QString("login/%1/mobile").arg(user->getId()), user->getMobile());
-//	settings.setValue(QString("login/%1/remember").arg(user->getId()), ui->remeberCheckBox->isChecked());
-//	settings.setValue(QString("login/%1/autoLogin").arg(user->getId()), ui->autoLoginCheckBox->isChecked());
-//	qDebug() << "缓存写入成功" << settings.value("login/0/id");
-//	/* 切换到聊天界面 */
-//	emit showLSChat(*user);
-//	this->close();
+	/* 登录成功，切换到聊天窗口 */
+	/* 加入本地缓存 */
+	user = msg.getSrc();
+	QSettings settings("E:/qt/202006051029-Chat/Client/cache/userCache.ini", QSettings::IniFormat);
+	settings.setValue(QString("login/0/id"), user.getId());
+	settings.setValue(QString("login/%1/username").arg(user.getId()), user.getUsername().data());
+	settings.setValue(QString("login/%1/password").arg(user.getId()), user.getPassword().data());
+	settings.setValue(QString("login/%1/mobile").arg(user.getId()), user.getMobile().data());
+	settings.setValue(QString("login/%1/remember").arg(user.getId()), ui->remeberCheckBox->isChecked());
+	settings.setValue(QString("login/%1/autoLogin").arg(user.getId()), ui->autoLoginCheckBox->isChecked());
+	qDebug() << "缓存写入成功" << settings.value("login/0/id");
+	/* 切换到聊天界面 */
+	LSChat::getInstance();
+	LSChat::showList();
+	this->close();
 }
 
 /* 切换到注册账号界面 */
@@ -173,15 +167,30 @@ void Login::on_registerBtn_clicked()
 	user.setUsername(username.toStdString());
 	user.setPassword(password.toStdString());
 	user.setMobile(mobile.toStdString());
+	user.setStatus(UserStatus::USER_STAT_OFFLINE);
 	Msg msg;
 	msg.setType(MsgType::MSG_REGISTER);
 	msg.setSrc(user);
+	Client::tcpSendMsg(msg);
+	msg = Client::getMsg();
 
-	qDebug() << "注册信息：" << msg.toString().data();
-
-//	/* 注册完成，返回登录主界面 */
-//	QMessageBox::information(this, "提示：", "注册成功", QMessageBox::Ok);
-//	ui->stackedWidget->setCurrentIndex(0);
+	/* 该用户已存在 */
+	switch(msg.getType())
+	{
+	case MsgType::ERRNO_SUCCESS:				/* 注册成功 */
+		QMessageBox::information(this, "提示：", "注册成功", QMessageBox::Ok);
+		/* 返回登录主界面 */
+		ui->stackedWidget->setCurrentIndex(0);
+		break;
+	case MsgType::ERRNO_ALREADYEXIST:			/* 该账号已存在 */
+		QMessageBox::critical(this, "错误：", "该账号已存在", QMessageBox::Ok);
+		break;
+	case MsgType::ERRNO_MOBILE_ALREADYEXIST:	/* 该手机号已绑定 */
+		QMessageBox::critical(this, "错误：", "该手机号已绑定", QMessageBox::Ok);
+		break;
+	default:
+		break;
+	}
 }
 
 /* 修改密码 */
@@ -233,25 +242,6 @@ void Login::on_alterBtn_clicked()
 		return;
 	}
 
-	/* 用户校验 */
-//	Specification spec;
-//	QList<QString> list;
-//	User *user;
-//	list.append(Specification::equal("username", Specification::tranString(username)));
-//	list.append(Specification::equal("passowrd", Specification::tranString(oldPwd)));
-//	list.append(Specification::equal("mobile", Specification::tranString(mobile)));
-//	spec.setSqlWhere(Specification::And(list));
-//	user = ud.findOne(&spec);
-//	if(user == nullptr)
-//	{
-//		ui->alterUsernamelineEdit->clear();
-//		ui->alterOldPwdlineEdit->clear();
-//		ui->alterMobileLineEdit->clear();
-//		ui->alterUsernamelineEdit->setFocus();
-//		QMessageBox::critical(this, "错误：", "用户验证失败", QMessageBox::Ok);
-//		return;
-//	}
-
 	/* 修改密码 */
 	User user;
 	user.setUsername(username.toStdString());
@@ -263,14 +253,21 @@ void Login::on_alterBtn_clicked()
 	msg.setType(MsgType::MSG_ALTER_PWD);
 	msg.setSrc(user);
 	msg.setDest(dest);
-	qDebug() << "修改密码封包：" << msg.toString().data();
-//	user->setPassword(newPwd);
-//	ud.save(user);
-//	delete user;
-
-//	/* 修改完成，返回登录主界面 */
-//	QMessageBox::information(this, "提示：", "修改成功", QMessageBox::Ok);
-//	ui->stackedWidget->setCurrentIndex(0);
+	Client::tcpSendMsg(msg);
+	msg = Client::getMsg();
+	switch(msg.getType())
+	{
+	case MsgType::ERRNO_SUCCESS:		/* 修改完成 */
+		QMessageBox::information(this, "提示：", "修改成功", QMessageBox::Ok);
+		/* 返回登录主界面 */
+		ui->stackedWidget->setCurrentIndex(0);
+		break;
+	case MsgType::ERRNO_INEXISTENCE:	/* 信息错误 */
+		QMessageBox::critical(this, "错误：", "信息输入错误", QMessageBox::Ok);
+		break;
+	default:
+		break;
+	}
 }
 
 /* 找回密码 */
@@ -315,24 +312,6 @@ void Login::on_findBtn_clicked()
 		return;
 	}
 
-	/* 用户校验 */
-//	Specification spec;
-//	spec.setSqlWhere(
-//				Specification::And(
-//					Specification::equal("username", Specification::tranString(username)),
-//					Specification::equal("mobile", Specification::tranString(mobile))
-//					)
-//				);
-//	User *user = ud.findOne(&spec);
-//	if(user == nullptr)
-//	{
-//		ui->findUsernameLineEdit->clear();
-//		ui->findMobileLineEdit->clear();
-//		ui->alterUsernamelineEdit->setFocus();
-//		QMessageBox::critical(this, "错误：", "用户验证失败", QMessageBox::Ok);
-//		return;
-//	}
-
 	/* 找回密码 */
 	User user;
 	user.setUsername(username.toStdString());
@@ -343,14 +322,21 @@ void Login::on_findBtn_clicked()
 	msg.setType(MsgType::MSG_FIND_PWD);
 	msg.setSrc(user);
 	msg.setDest(dest);
-	qDebug() << "找回密码封包：" << msg.toString().data();
-//	user->setPassword(newPwd);
-//	ud.save(user);
-//	delete user;
-
-//	/* 找回完成，返回登录主界面 */
-//	QMessageBox::information(this, "提示：", "找回成功", QMessageBox::Ok);
-//	ui->stackedWidget->setCurrentIndex(0);
+	Client::tcpSendMsg(msg);
+	msg = Client::getMsg();
+	switch(msg.getType())
+	{
+	case MsgType::ERRNO_SUCCESS:			/* 找回完成 */
+		QMessageBox::information(this, "提示：", "找回成功", QMessageBox::Ok);
+		/* 返回登录主界面 */
+		ui->stackedWidget->setCurrentIndex(0);
+		break;
+	case MsgType::ERRNO_INEXISTENCE:		/* 信息错误 */
+		QMessageBox::critical(this, "错误：", "信息输入错误", QMessageBox::Ok);
+		break;
+	default:
+		break;
+	}
 }
 
 /* 鼠标事件重载 - 按下事件 */
@@ -405,18 +391,40 @@ void Login::on_autoLoginCheckBox_stateChanged(int arg1)
 void Login::on_userNameLineEdit_textChanged(const QString &arg1)
 {
 	qDebug() << arg1;
-//	/* 获取缓存key列表 */
-//	QList<QString> keyList = userCache.keys();
-//	/* 检索数据 */
-//	foreach(QString key, keyList)
-//	{
-//		qDebug() << userCache.object(key)->getUsername().data() << "-"<< arg1;
-//		if(QString(userCache.object(key)->getUsername().data()).contains(arg1))
-//		{	/* 如果有，自动填写 */
-//			ui->userNameLineEdit->setText(userCache.object(key)->getUsername().data());
-//			ui->pwdLineEdit->setText(userCache.object(key)->getPassword().data());
-//		}
-//	}
+	/* 获取缓存key列表 */
+	QStringList keyList = userCache.keys();
+	User *user;
+	bool isEmpty = true;
+
+	/* 先清除已经存在的数据，不然的话每次文本变更都会插入数据，最后出现重复数据 */
+	userModel->removeRows(0, userModel->rowCount());
+
+	/* 检索数据 */
+	foreach(QString key, keyList)
+	{
+		user = userCache.object(key);
+		qDebug() << user->getUsername().data();
+		if(arg1 != "" && QString(user->getUsername().data()).indexOf(arg1) == 0)
+		{	/* 如果有，自动填写 */
+			userModel->insertRow(0);
+			userModel->setData(userModel->index(0, 0),
+							   user->getUsername().data());
+			ui->pwdLineEdit->setText(user->getPassword().data());
+			isEmpty = false;
+		}
+	}
+
+	/* 如果没有响应数据，密码清空 */
+	if(isEmpty)
+		ui->pwdLineEdit->clear();
+}
+
+/* 用户名自动提示：选择 */
+void Login::onUserChoosed(const QString &key)
+{
+	User *user = userCache.object(key);
+	ui->userNameLineEdit->setText(user->getUsername().data());
+	ui->pwdLineEdit->setText(user->getPassword().data());
 }
 
 /* 主界面初始化 */
@@ -427,10 +435,17 @@ void Login::homeInit()
 	setAttribute(Qt::WA_TranslucentBackground);                     //隐藏窗口，只显示控件
 	setFixedSize(this->size());                                     //禁止拖动窗口大小
 
+	/* 用户名输入框自动提示 */
+	userModel = new QStandardItemModel(0, 1, ui->userNameLineEdit);
+	userCompleter = new QCompleter(userModel, ui->userNameLineEdit);
+	userCompleter->setCompletionMode(QCompleter::InlineCompletion);
+	ui->userNameLineEdit->setCompleter(userCompleter);
+	connect(userCompleter, SIGNAL(activated(const QString&)), this, SLOT(onUserChoosed(const QString&)));
+
 	/* 连接 */
-	connect(ui->toRegisterBtn, SIGNAL(clicked()), this, SLOT(returnLoginBtn()));
-	connect(ui->toAlterBtn, SIGNAL(clicked()), this, SLOT(returnLoginBtn()));
-	connect(ui->toFindBtn, SIGNAL(clicked()), this, SLOT(returnLoginBtn()));
+	connect(ui->registerReturnLoginBtn, SIGNAL(clicked()), this, SLOT(returnLoginBtn()));
+	connect(ui->alterReturnLoginBtn, SIGNAL(clicked()), this, SLOT(returnLoginBtn()));
+	connect(ui->findReturnLoginBtn, SIGNAL(clicked()), this, SLOT(returnLoginBtn()));
 }
 
 /* 读取本地缓存 */

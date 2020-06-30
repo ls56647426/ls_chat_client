@@ -43,12 +43,44 @@ public:
 
 	string toString() const;
 
+	string getHead_portrait() const;
+	void setHead_portrait(const string &value);
+
+	string getNickname() const;
+	void setNickname(const string &value);
+
+	string getSignature() const;
+	void setSignature(const string &value);
+
+	string getSex() const;
+	void setSex(const string &value);
+
+	string getBirthday() const;
+	void setBirthday(const string &value);
+
+	string getLocation() const;
+	void setLocation(const string &value);
+
+	string getProfession() const;
+	void setProfession(const string &value);
+
+	string getEmail() const;
+	void setEmail(const string &value);
+
 private:
 	/* 字段映射 */
 	uint32_t id;
 	string username;
 	string password;
+	string head_portrait;
+	string nickname;
+	string signature;
+	string sex;
+	string birthday;
+	string location;
+	string profession;
 	string mobile;
+	string email;
 	uint32_t status;
 };
 

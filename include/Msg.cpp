@@ -81,5 +81,27 @@ void MsgInfo::setInfo(const string &value)
 
 string MsgInfo::toString() const
 {
-	return "{\"info\":\"" + info + "\"}";
+	string s = "{\"info\":\"" + info +
+			"\", \"userListInfo\":[";
+
+	for(auto it = userListInfo.begin(); it != userListInfo.end(); it++)
+	{
+		if(it != userListInfo.begin())
+			s += ", ";
+		s += "{\"user\":" + it->toString() + "}";
+	}
+
+	s += "]}";
+
+	return s;
+}
+
+list<User> MsgInfo::getUserListInfo() const
+{
+	return userListInfo;
+}
+
+void MsgInfo::setUserListInfo(const list<User> &value)
+{
+	userListInfo = value;
 }

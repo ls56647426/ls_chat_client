@@ -6,6 +6,7 @@
 
 #include "form/searchlineedit.h"
 #include "include/Msg.h"
+#include "include/client.h"
 
 namespace Ui {
 class Find;

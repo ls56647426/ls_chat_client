@@ -8,29 +8,32 @@
 #include <QSplitter>
 #include <QPushButton>
 #include <QToolBar>
+#include <QMutex>
 
 #include "find.h"
 #include "pojo/User.h"
 #include "pojo/Group.h"
 #include "pojo/Friend.h"
+#include "include/client.h"
 
 namespace Ui {
 class LSChat;
 }
 
+/* 单例模式 */
 class LSChat : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit LSChat(QWidget *parent = nullptr);
-	~LSChat();
-
-	void showList();
+	/* 单例模式：双检锁，获取聊天室对象 */
+	static LSChat &getInstance();
+	/* 获取当前在线用户信息 */
+	static User getMe();
+	/* 显示 好友/群 列表 */
+	static void showList();
 
 private slots:
-	/* 接收登录窗口传来的数据，并显示本窗口 */
-	void run(User user);
 	/* 发送消息 */
 	void on_sendMsgBtn_clicked();
 	/* 界面切换按钮 */
@@ -39,8 +42,12 @@ private slots:
 	void actionsTriggered();
 	/* 菜单按钮事件 */
 	void toolBtnClicked();
+	/* 我的设置 */
+	void on_myBtn_clicked();
 
 private:
+	explicit LSChat(QWidget *parent = nullptr);
+	~LSChat();
 	/* 主界面初始化 */
 	void homeInit();
 	/* 聊天会话界面初始化 */
@@ -50,9 +57,10 @@ private:
 
 private:
 	Ui::LSChat *ui;
-	User me;
-	QList<User> friUserList;
-	QList<Group> grpList;
+	Group group;
+	User me, you;
+	list<User> friUserList;
+	list<Group> grpList;
 
 	/* 要弹出的窗口 */
 	Find *findWidget;
@@ -76,6 +84,11 @@ private:
 
 	/* 发送消息方式(Enter - Ctrl+Enter) */
 	bool ctrlEnter;
+
+	/* 多线程互斥 */
+	static QMutex mutex;
+	/* 单例模式：懒汉式 */
+	static LSChat *instance;
 
 protected:
 	/* 鼠标事件重载 - 按下事件 */
