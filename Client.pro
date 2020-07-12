@@ -17,9 +17,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     addfriend.cpp \
+    edituser.cpp \
     find.cpp \
     form/findcard.cpp \
+    form/friendlistitem.cpp \
     form/searchlineedit.cpp \
+    form/userinfowidget.cpp \
     include/Msg.cpp \
     include/client.cpp \
     login.cpp \
@@ -27,26 +30,36 @@ SOURCES += \
     main.cpp \
     pojo/Friend.cpp \
     pojo/Group.cpp \
+    pojo/Message.cpp \
+    pojo/Record.cpp \
     pojo/User.cpp \
     pojo/UserGroupMap.cpp
 
 HEADERS += \
     addfriend.h \
+    edituser.h \
     find.h \
     form/findcard.h \
+    form/friendlistitem.h \
     form/searchlineedit.h \
+    form/userinfowidget.h \
     include/Msg.h \
     include/client.h \
     login.h \
     lschat.h \
     pojo/Friend.h \
     pojo/Group.h \
+    pojo/Message.h \
+    pojo/Record.h \
     pojo/User.h \
     pojo/UserGroupMap.h
 
 FORMS += \
     addfriend.ui \
+    edituser.ui \
     find.ui \
+    form/friendlistitem.ui \
+    form/userinfowidget.ui \
     login.ui \
     lschat.ui
 

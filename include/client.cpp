@@ -237,9 +237,9 @@ Msg Client::jsonToMsg(const QByteArray &jsonArr)
 	src.setId(subObj["id"].toInt());
 	src.setUsername(subObj["username"].toString().toStdString());
 	src.setPassword(subObj["password"].toString().toStdString());
-	src.setHead_portrait(subObj["head_portrait"].toString().toStdString());
+	src.setPic(subObj["pic"].toString().toStdString());
 	src.setNickname(subObj["nickname"].toString().toStdString());
-	src.setSignature(subObj["signature"].toString().toStdString());
+	src.setSign(subObj["sign"].toString().toStdString());
 	src.setSex(subObj["sex"].toString().toStdString());
 	src.setBirthday(subObj["birthday"].toString().toStdString());
 	src.setLocation(subObj["location"].toString().toStdString());
@@ -247,6 +247,7 @@ Msg Client::jsonToMsg(const QByteArray &jsonArr)
 	src.setMobile(subObj["mobile"].toString().toStdString());
 	src.setEmail(subObj["email"].toString().toStdString());
 	src.setStatus(subObj["status"].toInt());
+	src.setDate(subObj["date"].toString().toStdString());
 	msg.setSrc(src);
 
 	User dest;
@@ -254,9 +255,9 @@ Msg Client::jsonToMsg(const QByteArray &jsonArr)
 	dest.setId(subObj["id"].toInt());
 	dest.setUsername(subObj["username"].toString().toStdString());
 	dest.setPassword(subObj["password"].toString().toStdString());
-	dest.setHead_portrait(subObj["head_portrait"].toString().toStdString());
+	dest.setPic(subObj["pic"].toString().toStdString());
 	dest.setNickname(subObj["nickname"].toString().toStdString());
-	dest.setSignature(subObj["signature"].toString().toStdString());
+	dest.setSign(subObj["sign"].toString().toStdString());
 	dest.setSex(subObj["sex"].toString().toStdString());
 	dest.setBirthday(subObj["birthday"].toString().toStdString());
 	dest.setLocation(subObj["location"].toString().toStdString());
@@ -264,6 +265,7 @@ Msg Client::jsonToMsg(const QByteArray &jsonArr)
 	dest.setMobile(subObj["mobile"].toString().toStdString());
 	dest.setEmail(subObj["email"].toString().toStdString());
 	dest.setStatus(subObj["status"].toInt());
+	dest.setDate(subObj["date"].toString().toStdString());
 	msg.setDest(dest);
 
 	MsgInfo info;
@@ -280,9 +282,9 @@ Msg Client::jsonToMsg(const QByteArray &jsonArr)
 		user.setId(userObj["id"].toInt());
 		user.setUsername(userObj["username"].toString().toStdString());
 		user.setPassword(userObj["password"].toString().toStdString());
-		user.setHead_portrait(userObj["head_portrait"].toString().toStdString());
+		user.setPic(userObj["pic"].toString().toStdString());
 		user.setNickname(userObj["nickname"].toString().toStdString());
-		user.setSignature(userObj["signature"].toString().toStdString());
+		user.setSign(userObj["sign"].toString().toStdString());
 		user.setSex(userObj["sex"].toString().toStdString());
 		user.setBirthday(userObj["birthday"].toString().toStdString());
 		user.setLocation(userObj["location"].toString().toStdString());
@@ -290,6 +292,7 @@ Msg Client::jsonToMsg(const QByteArray &jsonArr)
 		user.setMobile(userObj["mobile"].toString().toStdString());
 		user.setEmail(userObj["email"].toString().toStdString());
 		user.setStatus(userObj["status"].toInt());
+		user.setDate(userObj["date"].toString().toStdString());
 		list.push_back(user);
 	}
 

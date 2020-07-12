@@ -17,5 +17,8 @@
         <file>Icon/topbg.png</file>
         <file>Icon/add.png</file>
         <file>Icon/search.png</file>
+        <file>Icon/edit.png</file>
+        <file>Icon/choose_pix1.png</file>
+        <file>Icon/choose_pix2.png</file>
     </qresource>
 </RCC>

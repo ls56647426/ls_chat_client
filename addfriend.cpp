@@ -23,7 +23,7 @@ AddFriend::AddFriend(QWidget *parent) :
 
 	/* 设置阴影效果 */
 	ui->addFriendWidget->setGraphicsEffect(shadowEffect);
-	delete shadowEffect;
+//	delete shadowEffect;
 
 	/* 初始化在编辑验证信息界面 */
 	status = AddFriendEnum::SendInfo;

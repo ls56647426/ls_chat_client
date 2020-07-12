@@ -52,6 +52,9 @@ public:
 	uint32_t getPermission() const;
 	void setPermission(const uint32_t &value);
 
+	string getDate() const;
+	void setDate(const string &value);
+
 	string toString() const;
 
 private:
@@ -60,6 +63,7 @@ private:
 	uint32_t gid;
 	uint32_t status;
 	uint32_t permission;
+	string date;
 };
 
 #endif // USERGROUPMAP_H

@@ -2,9 +2,9 @@
 
 Friend::Friend()
 {
-	id = 0;
-	uid1 = 0;
-	uid2 = 0;
+	id = suid = duid = 0;
+	date.clear();
+	permission = 0;
 }
 
 uint32_t Friend::getId() const
@@ -17,31 +17,53 @@ void Friend::setId(const uint32_t &value)
 	id = value;
 }
 
-uint32_t Friend::getUid1() const
+uint32_t Friend::getSuid() const
 {
-	return uid1;
+	return suid;
 }
 
-void Friend::setUid1(const uint32_t &value)
+void Friend::setSuid(const uint32_t &value)
 {
-	uid1 = value;
+	suid = value;
 }
 
-uint32_t Friend::getUid2() const
+uint32_t Friend::getDuid() const
 {
-	return uid2;
+	return duid;
 }
 
-void Friend::setUid2(const uint32_t &value)
+void Friend::setDuid(const uint32_t &value)
 {
-	uid2 = value;
+	duid = value;
+}
+
+string Friend::getDate() const
+{
+	return date;
+}
+
+void Friend::setDate(const string &value)
+{
+	date = value;
+}
+
+uint32_t Friend::getPermission() const
+{
+	return permission;
+}
+
+void Friend::setPermission(const uint32_t &value)
+{
+	permission = value;
 }
 
 string Friend::toString() const
 {
 	return "{\"id\":" + to_string(id) +
-		", \"uid1\":" + to_string(uid1) +
-		", \"uid2\":" + to_string(uid2) + "}";
+			", \"suid\":" + to_string(suid) +
+			", \"duid\":" + to_string(duid) +
+			", \"date\":\"" + date +
+			"\", \"permission\":" + to_string(permission) + "}";
 }
 
 

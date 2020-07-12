@@ -41,16 +41,14 @@ public:
 	uint32_t getStatus() const;
 	void setStatus(const uint32_t &value);
 
-	string toString() const;
-
-	string getHead_portrait() const;
-	void setHead_portrait(const string &value);
+	string getPic() const;
+	void setPic(const string &value);
 
 	string getNickname() const;
 	void setNickname(const string &value);
 
-	string getSignature() const;
-	void setSignature(const string &value);
+	string getSign() const;
+	void setSign(const string &value);
 
 	string getSex() const;
 	void setSex(const string &value);
@@ -67,14 +65,19 @@ public:
 	string getEmail() const;
 	void setEmail(const string &value);
 
+	string getDate() const;
+	void setDate(const string &value);
+
+	string toString() const;
+
 private:
 	/* 字段映射 */
 	uint32_t id;
 	string username;
 	string password;
-	string head_portrait;
+	string pic;
 	string nickname;
-	string signature;
+	string sign;
 	string sex;
 	string birthday;
 	string location;
@@ -82,6 +85,7 @@ private:
 	string mobile;
 	string email;
 	uint32_t status;
+	string date;
 };
 
 #endif // USER_H

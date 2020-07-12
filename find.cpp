@@ -27,7 +27,7 @@ Find::Find(QWidget *parent) :
 
 	/* 设置阴影效果 */
 	ui->findWidget->setGraphicsEffect(shadowEffect);
-	delete shadowEffect;
+//	delete shadowEffect;
 
 	searchLineEdit = new SearchLineEdit;
 	searchLineEdit->setMinimumHeight(30);

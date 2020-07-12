@@ -1,5 +1,6 @@
 #include "lschat.h"
 #include "ui_lschat.h"
+#include "form/friendlistitem.h"
 
 #include <QDesktopWidget>
 #include <QGraphicsDropShadowEffect>
@@ -7,13 +8,13 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QToolTip>
-#include <QTreeWidgetItem>
 #include <QMenu>
 #include <QAction>
 #include <QToolButton>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSettings>
+#include <QPixmap>
 
 /* 多线程互斥 */
 QMutex LSChat::mutex;
@@ -104,8 +105,13 @@ void LSChat::showList()
 	chat.ui->friTreeWidget->clear();
 	for(auto it = chat.friUserList.begin(); it != chat.friUserList.end(); it++)
 	{
+		FriendListItem *friListItem = new FriendListItem();
+		qDebug() << it->toString().data();
+		friListItem->setData(*it);
+
 		QTreeWidgetItem *item = new QTreeWidgetItem(chat.ui->friTreeWidget);
-		item->setText(0, it->getNickname().data());
+		item->setSizeHint(0, QSize(250, 60));
+		chat.ui->friTreeWidget->setItemWidget(item, 0, friListItem);
 	}
 
 //	/* 获取群列表 */
@@ -272,7 +278,10 @@ void LSChat::homeInit()
 
 	/* 设置阴影效果 */
 	ui->LSChatWidget->setGraphicsEffect(shadowEffect);
-	delete shadowEffect;
+//	delete shadowEffect;
+
+	/* 弹出窗口初始化 */
+	userInfoWidget = NULL;
 
 	/* 获取登录的用户信息 */
 	QSettings settings("E:/qt/202006051029-Chat/Client/cache/userCache.ini", QSettings::IniFormat);
@@ -386,6 +395,10 @@ void LSChat::sessionPageInit()
 /* 好友/群 列表界面初始化 */
 void LSChat::listPageInit()
 {
+	/* 弹出界面初始化 */
+//	findWidget = new Find;
+	findWidget = NULL;
+
 	/* 创建 [加好友/加群] - [创建群聊] 菜单 */
 	addListAction = new QAction("加好友/加群");
 	connect(addListAction, SIGNAL(triggered()), this, SLOT(actionsTriggered()));
@@ -488,7 +501,8 @@ void LSChat::actionsTriggered()
 
 	if(action == addListAction)
 	{	/* 加好友/加群 */
-		findWidget = new Find;
+		if(findWidget == NULL)
+			findWidget = new Find;
 //		findWidget->setParent(this);
 		findWidget->show();
 	}
@@ -511,4 +525,17 @@ void LSChat::toolBtnClicked()
 void LSChat::on_myBtn_clicked()
 {
 
+}
+
+/* 单击展示完整用户信息 */
+void LSChat::on_friTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+	if(userInfoWidget == NULL)
+	{
+		userInfoWidget = new UserInfoWidget(ui->infoGroupBox);
+//		userInfoWidget->move(30, 30);
+	}
+	FriendListItem *friItem = (FriendListItem *)ui->friTreeWidget->itemWidget(item, column);
+	qDebug() << friItem->getUser().toString().data();
+	userInfoWidget->setData(friItem->getUser());
 }

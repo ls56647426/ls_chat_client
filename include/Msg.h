@@ -31,6 +31,14 @@ typedef struct
 	char reserved[16];
 } MsgHeader;
 
+/* 文件传输 */
+class File
+{
+	uint32_t type;
+	char name[FILENAME_MAX];
+
+};
+
 /* 消息内容 */
 class MsgInfo
 {

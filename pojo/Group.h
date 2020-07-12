@@ -23,11 +23,23 @@ public:
 	string getName() const;
 	void setName(const string &value);
 
+	string getNum() const;
+	void setNum(const string &value);
+
+	string getDescription() const;
+	void setDescription(const string &value);
+
+	string getDate() const;
+	void setDate(const string &value);
+
 	string toString() const;
 
 private:
 	uint32_t id;
+	string num;
 	string name;
+	string description;
+	string date;
 };
 
 #endif // GROUP_H

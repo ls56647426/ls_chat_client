@@ -9,12 +9,14 @@
 #include <QPushButton>
 #include <QToolBar>
 #include <QMutex>
+#include <QTreeWidgetItem>
 
 #include "find.h"
 #include "pojo/User.h"
 #include "pojo/Group.h"
 #include "pojo/Friend.h"
 #include "include/client.h"
+#include "form/userinfowidget.h"
 
 namespace Ui {
 class LSChat;
@@ -44,6 +46,8 @@ private slots:
 	void toolBtnClicked();
 	/* 我的设置 */
 	void on_myBtn_clicked();
+	/* 单击展示完整用户信息 */
+	void on_friTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
 	explicit LSChat(QWidget *parent = nullptr);
@@ -64,6 +68,7 @@ private:
 
 	/* 要弹出的窗口 */
 	Find *findWidget;
+	UserInfoWidget *userInfoWidget;
 
 	/* 界面布局 */
 	/* 聊天会话界面 */

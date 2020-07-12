@@ -3,6 +3,7 @@
 UserGroupMap::UserGroupMap()
 {
 	id = uid = gid = status = permission = 0;
+	date.clear();
 }
 
 uint32_t UserGroupMap::getId() const
@@ -55,12 +56,22 @@ void UserGroupMap::setPermission(const uint32_t &value)
 	permission = value;
 }
 
+string UserGroupMap::getDate() const
+{
+    return date;
+}
+
+void UserGroupMap::setDate(const string &value)
+{
+    date = value;
+}
+
 string UserGroupMap::toString() const
 {
 	return "{\"id\":" + to_string(id) +
-		", \"uid\":" + to_string(uid) +
-		", \"gid\":" + to_string(gid) +
-		", \"status\":" + to_string(status) +
-		", \"permission\":" + to_string(permission) + "}";
+			", \"uid\":" + to_string(uid) +
+			", \"gid\":" + to_string(gid) +
+			", \"status\":" + to_string(status) +
+			", \"permission\":" + to_string(permission) +
+			", \"date\":\"" + date + "\"}";
 }
-
